@@ -86,28 +86,9 @@ namespace PrimeGen
             return true;
         }
 
-
-        static void Main()
+        static void GenPrimes(int countToInt, String bit)
         {
-            //check if bit number, and check if it is multiple of 8 (mod)
-            //Todo: prime number is natural number
-            String bit = "1024"; // arg[0]
-            int bitToInt = Int16.Parse(bit);
-            if (bitToInt % 8 != 0)
-            {
-                Console.WriteLine(throwError(bitInputDivisionerror: true));
-                return;
-
-            }
-            String countRequested = "10"; //arg[1]
-            int countToInt = Int16.Parse(countRequested);
-
-            //Todo: Continue from here!
-            // call IsProbablyPrime.
             int currentCount = 1;
-            Stopwatch clock = new Stopwatch();
-            Console.WriteLine("Bit length: " + bit + " bits");
-            clock.Start();
             while (currentCount <= countToInt)
             {
                 // Generate random number
@@ -135,6 +116,33 @@ namespace PrimeGen
                 }
 
             }
+        }
+
+
+        static void Main()
+        {
+            //check if bit number, and check if it is multiple of 8 (mod)
+            //Todo: prime number is natural number
+            String bit = "1024"; // arg[0]
+            int bitToInt = Int16.Parse(bit);
+            if (bitToInt % 8 != 0)
+            {
+                Console.WriteLine(throwError(bitInputDivisionerror: true));
+                return;
+
+            }
+            String countRequested = "2"; //arg[1]
+            int countToInt = Int16.Parse(countRequested);
+
+            //Todo: Continue from here!
+            // call IsProbablyPrime.
+            
+            Stopwatch clock = new Stopwatch();
+            Console.WriteLine("Bit length: " + bit + " bits");
+            clock.Start();
+            // Todo: put this while look in a void func (GetPrimes) and thread it
+            GenPrimes(countToInt, bit);
+            
             clock.Stop();
             //Todo: Check time format correctnetss
             TimeSpan ts = clock.Elapsed;

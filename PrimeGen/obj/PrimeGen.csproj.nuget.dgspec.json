@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tesfatsionshiferaw/Projects/PrimeGen/PrimeGen/PrimeGen.csproj": {}
+    "/Users/tesfatsionshiferaw/Documents/GitHub/Prime-Number-Generator/PrimeGen/PrimeGen.csproj": {}
   },
   "projects": {
-    "/Users/tesfatsionshiferaw/Projects/PrimeGen/PrimeGen/PrimeGen.csproj": {
+    "/Users/tesfatsionshiferaw/Documents/GitHub/Prime-Number-Generator/PrimeGen/PrimeGen.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tesfatsionshiferaw/Projects/PrimeGen/PrimeGen/PrimeGen.csproj",
+        "projectUniqueName": "/Users/tesfatsionshiferaw/Documents/GitHub/Prime-Number-Generator/PrimeGen/PrimeGen.csproj",
         "projectName": "PrimeGen",
-        "projectPath": "/Users/tesfatsionshiferaw/Projects/PrimeGen/PrimeGen/PrimeGen.csproj",
+        "projectPath": "/Users/tesfatsionshiferaw/Documents/GitHub/Prime-Number-Generator/PrimeGen/PrimeGen.csproj",
         "packagesPath": "/Users/tesfatsionshiferaw/.nuget/packages/",
-        "outputPath": "/Users/tesfatsionshiferaw/Projects/PrimeGen/PrimeGen/obj/",
+        "outputPath": "/Users/tesfatsionshiferaw/Documents/GitHub/Prime-Number-Generator/PrimeGen/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/tesfatsionshiferaw/.nuget/NuGet/NuGet.Config"
