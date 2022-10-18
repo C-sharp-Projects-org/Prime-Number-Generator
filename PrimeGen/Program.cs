@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Tesfatsion Shiferaw
+ * tms4150
+ */
+using System;
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
@@ -7,11 +11,11 @@ using System.Security.Cryptography;
 
 namespace PrimeGen
 {
-    //Todo: each class/interface needs appropriete description
     public static class PrimeGen
     {
         static BigInteger GenerateRandomNumber(String bit)
         {
+            // Generates random numer of size: bit
             var toByte = Int16.Parse(bit) / 8;
             var random = RandomNumberGenerator.Create();
             Byte[] bytes = new byte[(int)toByte];
@@ -20,30 +24,15 @@ namespace PrimeGen
             return number;
         }
 
-        //needs to be cleaned
-        //Todo: (CONTINUE HERE!) Working on this method now, check again
         static bool miillerTest(BigInteger d, BigInteger n)
         {
-            // n is random Big integer to be tested for primeness
-            // d?
-
-            // Pick a random number in [2..n-2]
-            // Corner cases make sure that n > 4
-            //TODO: needs to be changed
+            // does miller test given the random integer and n-value
             Random r = new Random();
             int a = 2 + (int)(r.Next() % (n - 4));
-
-            // Compute a^d % n
-            //Implemented ModPow
             BigInteger x = BigInteger.ModPow(a, d, n);
             if (x == 1 || x == n - 1)
                 return true;
 
-            // Keep squaring x while one of the
-            // following doesn't happen
-            // (i) d does not reach n-1
-            // (ii) (x^2) % n is not 1
-            // (iii) (x^2) % n is not n-1
             while (d != n - 1)
             {
                 x = (x * x) % n;
@@ -55,24 +44,13 @@ namespace PrimeGen
                     return true;
             }
 
-            // Return composite
             return false;
-        }
-
-        
-        static String throwError(Boolean bitInputDivisionerror = false, Boolean error2 = false)
-        {
-            //Todo: handle various error messages here
-            if (bitInputDivisionerror)
-            {
-                return "Error info: Please enter bit size that is divisible by 8.";
-            }
-            return "Error";
         }
 
         static Boolean IsProbablyPrime( this BigInteger value, int k = 10)
         {
-            //Todo: implement this method
+            //C alls millerTest method checks if a number is probably prime using
+            // k value
             BigInteger d = value - 1;
             while (d % 2 == 0)
                 d /= 2;
@@ -88,14 +66,13 @@ namespace PrimeGen
 
         static void GenPrimes(int countToInt, String bit)
         {
+            // runs to generate a random number and check for primality
+            // until the requested number of primes are generated.
             int currentCount = 1;
             while (currentCount <= countToInt)
             {
                 // Generate random number
                 BigInteger randomBitNumber = GenerateRandomNumber(bit);
-                //Skip corner cases:
-                //Corner cases:
-                // 1) if even, 2) if less than or equal to 1
                 if ((randomBitNumber <= 1) || (randomBitNumber % 2) == 0)
                 {
                     //skip this iteration
@@ -118,41 +95,72 @@ namespace PrimeGen
             }
         }
 
-
-        static void Main()
+        static void throwError(Boolean bitInputDivisionerror = false, Boolean help = false, Boolean bitNotFound = false)
         {
-            //check if bit number, and check if it is multiple of 8 (mod)
-            //Todo: prime number is natural number
-            String bit = "1024"; // arg[0]
-            int bitToInt = Int16.Parse(bit);
-            if (bitToInt % 8 != 0)
+            // Dedicated to error handling and help message
+            if (bitInputDivisionerror)
             {
-                Console.WriteLine(throwError(bitInputDivisionerror: true));
-                return;
-
+                Console.WriteLine("Error info: Please enter bit size that is divisible by 8.");
+                //return;
             }
-            String countRequested = "2"; //arg[1]
-            int countToInt = Int16.Parse(countRequested);
+            else if (bitNotFound)
+            {
+                Console.WriteLine("Error info: Please enter bit size");
+            }
 
-            //Todo: Continue from here!
-            // call IsProbablyPrime.
+            else if (help)
+            {
+                Console.WriteLine("dotnet run <bits> <count=1>\n     - bits - the number of bits of the prime number, this must be a\n     multiple of 8, and at least 32 bits.\n     - count - the number of prime numbers to generate, defaults to 1");
+            }
             
-            Stopwatch clock = new Stopwatch();
-            Console.WriteLine("Bit length: " + bit + " bits");
-            clock.Start();
-            // Todo: put this while look in a void func (GetPrimes) and thread it
-            GenPrimes(countToInt, bit);
+            return;
+        }
+
+
+        static void Main(String[] args)
+        {
+            String countRequested = "1";
+            if (args.Length == 2)
+            {
+                countRequested = args[1];
+            }
+            else if (args.Length < 1)
+            {
+                throwError(bitNotFound: true);
+                //return;
+            }
+            else if ((args.Length == 1) && ((args[0] == "-h") || (args[0] == "--help")))
+            {
+                
+            }
+            try
+            {
+                String bit = args[0];
+                int bitToInt = Int16.Parse(bit);
+                if (bitToInt % 8 != 0)
+                {
+                    throwError(bitInputDivisionerror: true);
+                    return;
+
+                }
+                
+                int countToInt = Int16.Parse(countRequested);
+                Stopwatch clock = new Stopwatch();
+                Console.WriteLine("Bit length: " + bit + " bits");
+                clock.Start();
+                GenPrimes(countToInt, bit);
+                clock.Stop();
+                TimeSpan ts = clock.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+                Console.WriteLine("Time to Generate: " + elapsedTime);
+            }
+            catch
+            {
+                throwError(help: true);
+            }
             
-            clock.Stop();
-            //Todo: Check time format correctnetss
-            TimeSpan ts = clock.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Console.WriteLine("Time to Generate: " + elapsedTime);
-
-
-            Console.WriteLine("Run Sequencially");
         }
     }
 }
